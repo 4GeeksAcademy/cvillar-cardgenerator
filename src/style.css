@@ -1,1 +1,7 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
+.row {
+  height: 215px;
+  width: 333px;
+  background-color: grey;
+}
