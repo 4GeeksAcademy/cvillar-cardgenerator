@@ -7,9 +7,30 @@ import "./assets/img/4geeks.ico";
 
 window.onload = function() {
   //write your code here
-  generarcarta();
-};
 
+  generarcarta();
+
+  document.getElementById("cambiarCarta").onclick = function() {
+    generarcarta();
+    mostrarTablaCartas();
+  };
+};
+let cartas = {
+  "♥": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "♦": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "♠": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "♣": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+};
+function cargarCartas() {
+  const cartasGuardadas = localStorage.getItem("cartas");
+  if (cartasGuardadas) {
+    cartas = JSON.parse(cartasGuardadas);
+  }
+}
+
+function guardarCartas() {
+  localStorage.setItem("cartas", JSON.stringify(cartas));
+}
 function generarcarta() {
   // Listas de opciones para construir la Carta
   let palo = ["♥", "♦", "♠", "♣"];
@@ -46,13 +67,50 @@ function generarcarta() {
     document.getElementById("valor").style.color = "red";
     document.getElementById("mostarAbajo").style.color = "red";
   }
-
-  let cartas = [
-    { "♥": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-    { "♦": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-    { "♠": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-    { "♣": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
-  ];
-
-  // cartas[eleccionPalo][indexvalor] = cartas[eleccionPalo][indexvalor] + 1;
+  cartas[eleccionPalo][indexvalor] = cartas[eleccionPalo][indexvalor] + 1;
+  guardarCartas();
 }
+function mostrarTablaCartas() {
+  const tablaCartasDiv = document.getElementById("tablaCartas");
+  tablaCartasDiv.innerHTML = ""; // Limpiar contenido previo
+
+  const tabla = document.createElement("table");
+  const header = tabla.createTHead();
+  const headerRow = header.insertRow(0);
+  let cell = headerRow.insertCell(0);
+  cell.innerHTML = "<b>Palo</b>";
+  const valores = [
+    "AS",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "King",
+    "Queen"
+  ];
+  valores.forEach((valor, index) => {
+    cell = headerRow.insertCell(index + 1);
+    cell.innerHTML = `<b>${valor}</b>`;
+  });
+
+  const body = tabla.createTBody();
+  for (const palo in cartas) {
+    const row = body.insertRow();
+    let cell = row.insertCell(0);
+    cell.innerHTML = palo;
+    cartas[palo].forEach(cantidad => {
+      cell = row.insertCell();
+      cell.innerHTML = cantidad;
+    });
+  }
+
+  tablaCartasDiv.appendChild(tabla);
+}
+cargarCartas();
+mostrarTablaCartas();
+console.log(cartas);
