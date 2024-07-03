@@ -1,7 +1,31 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
-
+body {
+  background-color: black;
+}
 .row {
   height: 215px;
   width: 333px;
-  background-color: grey;
+  background-color: #2bb5b7;
+  border-radius: 25px;
+  border: 2px solid #877e7d;
+  align-items: center;
+  display: flex;
+}
+
+.align-self-center {
+  align-self: center !important;
+  text-align: center;
+}
+.align-self-end {
+  align-self: flex-end !important;
+  text-align: right;
+  transform: rotate(180deg);
+  display: flex;
+  justify-content: flex-start;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
